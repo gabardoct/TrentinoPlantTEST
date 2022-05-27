@@ -1,0 +1,122 @@
+<div class="chopclosenow" *ngIf='isRestricktn'>
+	<span>
+		<h1>{{restrictns_lbl}}</h1>
+      	<p>{{restrictns_txt}}</p>
+      	<div class="okbtnforrevoew" (click)='alrestclose()'><span>Ok</span></div>
+	</span>
+</div>
+
+<div class="chopclosenow" *ngIf='isordertomorrow'>
+	<span>
+		<h1>We are closed now</h1>
+      	<p>Order will be delivered when we reopen on<br><strong>{{nextdeday}}</strong><strong> {{nexttime}}</strong>. </p>
+      	<p>Please click ok if you wish to PRE-ORDER</p>
+      	<div class="okbtnforrevoew" (click)='alrestclose()'><span>Ok</span></div>
+	</span>
+</div>
+
+<div class="chopclosenow" *ngIf='isShopclose'>
+	<span>
+		<h1>{{closetxt.openTimeTxt}}</h1>
+      	<p [innerHTML]='closetxt.openTimeToday'></p>
+      	<div class="okbtnforrevoew" (click)='noshopping()'><span>Ok</span></div>
+	</span>
+</div>
+
+<ion-header>
+  <ion-toolbar class="header-background-color">
+  	 <ion-back-button slot="start"></ion-back-button>
+    <ion-title class="heaerfont">My Cart</ion-title>
+    <ion-buttons slot="end" (click)='clearmycart()' style='color: #f00;font-size: 11px;font-weight: bold;text-transform: uppercase;'>
+    	Clear Cart
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+	    <ion-refresher-content></ion-refresher-content>
+	 </ion-refresher>
+	 <div *ngIf='!cartcount' class="notcartitm">
+	 	<img src="assets/shoppingEmpty.png"><p>Good food is always cooking<br><span>Your cart is empty. Add something from the menu</span></p>
+	 	<div class="brwsmenu" (click)='homego()'><span>Browse Menu</span></div>
+	 </div>
+	<div class="padcontr" *ngIf='cartcount'>
+		<div class="itemlists" *ngFor="let item of mycart; let i = index">
+			<div class="xtrasremove" *ngIf='item.xtras' (click)='removeXtrs(i)'>
+				<ion-icon name="close-outline"></ion-icon>
+			</div>
+			<div class="nameanddesc {{item.xtras}}">
+				{{item.name}} - <code [innerHTML]='getappsetng?.currency_symbol'></code>{{item.itmOnly}}<br><span>{{item.productDesc}}</span>
+				<span class="preorder" *ngIf="item.preorder"><br>This is a Pre-Order Item ({{item.pre_time}})</span>
+				<!-- <span class="preorder">{{slc.name}} ()</span> -->
+			</div>
+			<div class="qtybox" *ngIf='!item.xtras'>
+				<span class="minusbtn" (click)='munisqty(item)'><ion-icon name="remove-outline"></ion-icon></span>
+				<span class="qtyvalue" id="itmqtyval_{{item.id}}">{{item.qty}}</span>
+				<span class="plsvalue" (click)='addqty(item)'><ion-icon name="add-outline"></ion-icon></span>
+			</div>
+			<div class="totalitm">
+				<code [innerHTML]='getappsetng?.currency_symbol'></code>{{item.item_sub_total}}
+			</div>
+			<div class="clear"></div>
+			<div class="selecttions" *ngFor="let slc of item.selections">
+				<div class="optname">{{slc.name}} (<span [innerHTML]='getappsetng?.currency_symbol'></span>{{slc.total}})</div>
+				<!-- <div class="optprice">+</div> -->
+			</div>
+			<!-- <div *ngIf='item.isoptn' class="ifselction">Total: <span [innerHTML]='getappsetng?.currency_symbol'></span>{{item.withslpr}}</div> -->
+		</div>
+
+
+		<div class="ifanythonote">
+			<ion-icon name="newspaper-outline"></ion-icon> <input type="text" [(ngModel)]="extranotes" placeholder="Any Notes or Remarks">
+		</div>
+
+		<div class="highdemandbanner blinking" *ngIf='getappsetng?.pause_order_message'>
+			<ion-icon name="fast-food-outline"></ion-icon> {{getappsetng?.pause_order_message}}
+		</div>
+
+		<div class="appcoupncd" (click)='opendatetimedel()' *ngIf='!chsdeltime'>
+			<img style="top: 14px;" src="assets/delivery_icon.png"> Select Delivery Time
+			<span style="line-height: 31px;"><ion-icon name="chevron-forward-outline"></ion-icon></span>
+			<br><b>Preparation times are  {{getappsetng.preparation_time}}</b>
+		</div>
+		<div class="appcoupncd" (click)='opendatetimedel()' *ngIf='chsdeltime'>
+			<img style="top: 14px;" src="assets/delivery_icon.png"> Delivery Time:  {{chsdeltime}}
+			<span style="line-height: 31px;"><ion-icon name="pencil-outline"></ion-icon></span>
+			<br><b>Our cooking times are  {{getappsetng.preparation_time}}</b>
+		</div>
+
+
+
+
+		<div class="appcoupncd" *ngIf='!apldofrs' (click)='gofers();'>
+			<img src="assets/offeriCon.png"> Apply Discount / Coupon Code <span><ion-icon name="chevron-forward-outline"></ion-icon></span>
+		</div>
+		<div class="appcoupncd" *ngIf='apldofrs'>
+			<img src="assets/offeriCon.png"> Coupon applied - <strong>{{apldofrs.offer_code}}</strong> <span (click)='cancelcpn();'><ion-icon name="close-outline"></ion-icon></span>
+		</div>
+
+		<div class="billdeatils">
+			<div class="head">Order Details</div>
+			<ul>
+				<li>Item(s) Total <span><code [innerHTML]='getappsetng?.currency_symbol'></code>{{carttotal}}</span></li>
+				<li *ngIf='apldofrs'>{{offer_text}} <span>- <code [innerHTML]='getappsetng?.currency_symbol'></code>{{off_amount}}</span></li>
+				<li *ngIf='getappsetng.additional_one_lebel'>{{getappsetng.additional_one_lebel}} <span>+ <code [innerHTML]='getappsetng?.currency_symbol'></code>{{getappsetng.additional_one_value}}</span></li>
+				<li *ngIf='getappsetng.additional_two_lebel'>{{getappsetng.additional_two_lebel}} <span>+ <code [innerHTML]='getappsetng?.currency_symbol'></code>{{getappsetng.additional_two_value}}</span></li>
+				<li *ngIf='getappsetng.additional_three_lebel'>{{getappsetng.additional_three_lebel}} <span>+ <code [innerHTML]='getappsetng?.currency_symbol'></code>{{getappsetng.additional_three_value}}</span></li>
+				<li *ngIf='getappsetng.tax_lebel'>{{getappsetng.tax_lebel}} ({{getappsetng.tax_value}}%) <span>+ <code [innerHTML]='getappsetng?.currency_symbol'></code>{{taxvalue}}</span></li>
+				<li class="topay">To Pay <span><code [innerHTML]='getappsetng?.currency_symbol'></code>{{pay_amount}}</span></li>
+			</ul>
+		</div>
+	</div>
+</ion-content>
+<ion-footer class="ion-no-border crtfooter" *ngIf='isKeyboardHide'>
+	<div class="leftsidehalf" (click)='continueShp()'>
+		Add More Items
+	</div>
+	<div class="rightsidehlf" (click)='callforprocessd()'>
+		Proceed
+	</div>
+	<div class="clear"></div>
+</ion-footer>

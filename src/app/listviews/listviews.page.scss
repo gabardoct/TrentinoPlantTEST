@@ -1,0 +1,36 @@
+.categorylists{
+	width: 100%;
+    height: auto;
+    padding: 10px 10px;
+    position: relative;
+    background: #fff;
+    margin-bottom: 5px;
+    font-size: 12px;
+    text-transform: uppercase;
+	span{
+		float: right;
+	}
+	ion-toggle{
+		padding: 0;
+	}
+}
+
+.categoryliststngs{
+	width: 100%;
+    height: auto;
+    padding: 15px 10px;
+    position: relative;
+    background: #fff;
+    margin-bottom: 5px;
+    font-size: 12px;
+    text-transform: uppercase;
+    position: relative;
+	span{
+		position: absolute;
+		right: 10px;
+    	top: 7px;
+	}
+	ion-toggle{
+		padding: 0;
+	}
+}

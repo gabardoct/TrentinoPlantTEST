@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar class="header-background-color">
+  	 <ion-back-button slot="start"></ion-back-button>
+    <ion-title class="heaerfont">{{title}}</ion-title>
+    <ion-buttons slot="end" (click)='logout()'>
+      <ion-icon name="log-out-outline" clas='headerrighticon'></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+	    <ion-refresher-content></ion-refresher-content>
+	 </ion-refresher>
+	<div class="padcontr">
+		<div class="sectiondiv" (click)='opnprofileupdate()' *ngIf="isMyacnt">
+			<div class="sechead">
+				{{logeduser.name}} <span>Edit</span>
+			</div>
+			<div class="secdesc">
+				+44-{{logeduser.mobile}} {{logeduser.email}}
+			</div>
+		</div>
+		<div class="sectiondiv" (click)='goaddress()' *ngIf="isMyacnt">
+			<ion-icon name="chevron-forward-outline"></ion-icon>
+			<div class="sechead">
+				My Addresses
+			</div>
+			<div class="secdesc">
+				Manage my address
+			</div>
+		</div>
+
+		<div class="sectiondiv">
+			<div class="sechead">
+				My Past Order(s)
+			</div>
+			<div class="secordprice" *ngFor="let ord of ords">
+				<span class="deliverdgreen">{{ord.order_status}}<ion-icon *ngIf="ord.order_status == 'Delivered'" name="checkmark-outline"></ion-icon></span>
+				<b *ngFor="let itm of ord.prd" (click)='viewordertls(ord.orderid)'>{{itm.item_name}} x {{itm.qty}}, </b><br>
+				<span>{{ord.orddate}}, {{ord.ordtime}}</span><br>
+				<div class="pricespn"><code [innerHTML]='getappsetng?.currency_symbol'></code>{{ord.total_pay}}</div>
+				<!-- <div class="reorderbtn"><span>Reorder</span></div> -->
+			</div>
+		</div>
+	</div>
+</ion-content>

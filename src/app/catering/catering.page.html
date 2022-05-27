@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar class="header-background-color">
+  	 <ion-back-button slot="start"></ion-back-button>
+    <ion-title class="heaerfont">Catering Service</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+	    <ion-refresher-content></ion-refresher-content>
+	 </ion-refresher>
+
+	 <div class="cateringlogo">
+	 	<img src="assets/icon/logo.png">
+	 </div>
+	 <div class="cmshead">
+	 	{{allProducts?.heading}}
+	 </div>
+	 <div class="cmsdesc" [innerHTML]='allProducts?.descriptions'></div>
+
+	 <div class="formforcatering">
+	 	<label>Your full name</label>
+	 	<input type="text" [(ngModel)]="data.fullname">
+	 </div>
+	 <div class="formforcatering">
+	 	<label>Contact Number</label>
+	 	<input type="tel" [(ngModel)]="data.mobile" maxlength="11"  onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+	 </div>
+	 <div class="formforcatering">
+	 	<label>Event Date</label>
+	 	<input type="text" [(ngModel)]="data.date" placeholder="25th December {{allProducts?.nowysr}}">
+	 </div>
+	 <div class="formforcatering">
+	 	<label>Event Time</label>
+	 	<input type="text" [(ngModel)]="data.time" placeholder="07.30pm">
+	 </div>
+	 <div class="formforcatering">
+	 	<label>Event Description</label>
+	 	<input type="text" [(ngModel)]="data.descriptions" placeholder="Example: Birthday Party 40 Guests">
+	 </div>
+	 <div class="formforcatering">
+	 	<label>Number of Guests</label>
+	 	<input type="text" [(ngModel)]="data.budget">
+	 </div>
+	 <div class="submitbtn" (click)='submitevnt()'>
+	 	Submit
+	 </div>
+
+</ion-content>

@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add a delivery address:</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<div class="loginmobilefieldreg">
+		<label>Address Type (eg.: Home / Office etc.)</label>
+		<input type="text" [(ngModel)]="data.address_type">
+	</div>
+	<div class="loginmobilefieldreg">
+		<label>Address line 1</label>
+		<input type="text" [(ngModel)]="data.address_line_one">
+	</div>
+	<div class="loginmobilefieldreg">
+		<label>Address line 2</label>
+		<input type="text" [(ngModel)]="data.address_line_two">
+	</div>
+	<div class="loginmobilefieldreg">
+		<label>Postcode</label>
+		<input type="text" [(ngModel)]="data.postcode">
+	</div>
+	
+	<div class="continuebtn" (click)='addnewaddress()'>
+		Add
+	</div>
+	
+</ion-content>
+

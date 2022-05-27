@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar class="header-background-color">
+  	 <ion-back-button (click)="BackButtonAction()" slot="start"></ion-back-button>
+    <ion-title class="heaerfont">Checkout</ion-title>
+    <ion-buttons slot="end" (click)='editcart()'>
+    	<ion-icon name="create-outline" clas='headerrighticon'></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+	    <ion-refresher-content></ion-refresher-content>
+	 </ion-refresher>
+	 <div *ngIf='!cartcount' class="notcartitm">
+	 	<img src="assets/shoppingEmpty.png">
+	 </div>
+	<div class="padcontr" *ngIf='cartcount'>
+		<div class="itemlists" *ngFor="let item of mycart">
+			<div class="nameanddesc {{item.xtras}}">
+				{{item.name}} - <code [innerHTML]='getappsetng?.currency_symbol'></code>{{item.itmOnly}}<br><span>{{item.productDesc}}</span>
+				<span class="preorder" *ngIf="item.preorder"><br>This is a Pre-Order Item ({{item.pre_time}})</span>
+			</div>
+			<div class="qtybox" *ngIf='!item.xtras'>
+				<span class="minusbtn">&nbsp;</span>
+				<span class="qtyvalue" id="itmqtyval_{{item.id}}">{{item.qty}}</span>
+				<span class="plsvalue">&nbsp;</span>
+			</div>
+			<div class="totalitm">
+				<code [innerHTML]='getappsetng?.currency_symbol'></code>{{item.item_sub_total}}
+			</div>
+			<div class="clear"></div>
+			<div class="selecttions" *ngFor="let slc of item.selections">
+				<div class="optname">{{slc.name}} (<span [innerHTML]='getappsetng?.currency_symbol'></span>{{slc.total}})</div>
+				<!-- <div class="optprice">+<span [innerHTML]='getappsetng?.currency_symbol'></span>{{slc.price}}</div> -->
+			</div>
+			<!-- <div *ngIf='item.isoptn' class="ifselction">Total: <span [innerHTML]='getappsetng?.currency_symbol'></span>{{item.item_sub_total}}</div> -->
+			<!--  -->
+		</div>
+		<div class="ifanythonote" *ngIf='extrnote'>
+			<ion-icon name="newspaper-outline"></ion-icon> {{extrnote}}
+		</div>
+
+		<div class="appcoupncd">
+			<img src="assets/delivery_icon.png"> Delivery Time:  {{chsdeltime}}<span><ion-icon name="chevron-forward-outline"></ion-icon></span>
+		</div>
+		
+		<div class="billdeatils">
+			<div class="head">Bill Details</div>
+			<ul>
+				<li>Item Total <span><code [innerHTML]='getappsetng?.currency_symbol'></code>{{carttotal}}</span></li>
+				<li *ngIf='apldofrs'>{{offer_text}} <span>- <code [innerHTML]='getappsetng?.currency_symbol'></code>{{off_amount}}</span></li>
+				<li *ngIf='getappsetng.additional_one_lebel'>{{getappsetng.additional_one_lebel}} <span>+ <code [innerHTML]='getappsetng?.currency_symbol'></code>{{getappsetng.additional_one_value}}</span></li>
+				<li *ngIf='getappsetng.additional_two_lebel'>{{getappsetng.additional_two_lebel}} <span>+ <code [innerHTML]='getappsetng?.currency_symbol'></code>{{getappsetng.additional_two_value}}</span></li>
+				<li *ngIf='getappsetng.additional_three_lebel'>{{getappsetng.additional_three_lebel}} <span>+ <code [innerHTML]='getappsetng?.currency_symbol'></code>{{getappsetng.additional_three_value}}</span></li>
+				<li *ngIf='getappsetng.tax_lebel'>{{getappsetng.tax_lebel}} ({{getappsetng.tax_value}}%) <span>+ <code [innerHTML]='getappsetng?.currency_symbol'></code>{{taxvalue}}</span></li>
+				<li *ngIf='isDeliveryOrd'>Delivery <span [innerHTML]='delvrxtx'></span></li>
+				<li *ngIf='prord_price && isDeliveryOrd'>Pre-Order Delivery <span>+ <code [innerHTML]='getappsetng?.currency_symbol'></code>{{prord_price}}</span></li>
+				<li class="topay">To Pay <span><code [innerHTML]='getappsetng?.currency_symbol'></code>{{pay_amount}}</span></li>
+			</ul>
+		</div>
+
+		<div class="billdeatils" *ngIf='isDeliveryOrd'>
+			<div class="head">Delivery address <span (click)='continueShp()'><ion-icon name="create-outline"></ion-icon> Change</span></div>
+			<ul>
+				<li>{{shipping.address_type}}<br>{{shipping.address_line_one}} {{shipping.address_line_two}} {{shipping.postcode}}</li>
+			</ul>
+		</div>
+		<div class="onlytxt">
+			By confirming your order, you acknowledge that you have read and that you agree to our <span (click)="gotncpg('tnc')">Terms & Conditions</span> and our <span (click)="gotncpg('pvp')">Privacy Policy</span>. 
+		</div>
+	</div>
+	
+</ion-content>
+<ion-footer class="ion-no-border crtfooter" *ngIf='cartcount'>
+	<div class="makepaymentbtn" (click)='viewpayoption()'>
+		Confirm Order
+	</div>
+	<!-- <div class="leftsidehalf" (click)='gohome()'>
+		Add More Items
+	</div>
+	<div class="rightsidehlf" (click)='viewpayoption()'>
+		Proceed to Pay
+	</div> -->
+	<div class="clear"></div>
+</ion-footer>

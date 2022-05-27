@@ -1,0 +1,31 @@
+<ion-content no-bounce has-bouncing="false" forceOverscroll="false">
+
+	<div class="loginmobilefieldreg">
+		<label>Your full name</label>
+		<input type="text" [(ngModel)]="logineduser.name">
+	</div>
+	<div class="loginmobilefieldreg">
+		<label>Recovery email</label>
+		<input type="email" [(ngModel)]="logineduser.email">
+	</div>
+	<!-- <div class="loginmobilefieldreg">
+		<label>Recovery email</label>
+		<input type="password" [(ngModel)]="logineduser.password">
+	</div> -->
+	<div class="fldheading">Billing Address</div>
+	<div class="loginmobilefieldreg">
+		<label>Address Line 1</label>
+		<input type="email" [(ngModel)]="logineduser.address_line_one">
+	</div>
+	<div class="loginmobilefieldreg">
+		<label>Address Line 2</label>
+		<input type="email" [(ngModel)]="logineduser.address_line_two">
+	</div>
+	<div class="loginmobilefieldreg">
+		<label>Postcode</label>
+		<input type="email" [(ngModel)]="logineduser.postcode">
+	</div>
+	<div class="continuebtn" (click)='updateprofile()'>
+		Update
+	</div>
+</ion-content>

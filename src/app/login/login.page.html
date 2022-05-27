@@ -1,0 +1,64 @@
+<ion-content no-bounce has-bouncing="false" forceOverscroll="false">
+	<div class="almosttherehead" *ngIf='!isTncdesc'>
+		Almost There!<br><span>Login or signup to place your order</span>
+	</div>
+	<div *ngIf='!isnewUser'>
+		<div class="loginmobilefield">
+			<span><img src="assets/icon/phone-icon.png"></span>
+			<label>Mobile Number</label>
+			<input type="tel" [(ngModel)]="logmobile" maxlength="11" onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+		</div>
+		<div *ngIf='!isPassrd'>
+			<div class="continuebtn" (click)='checkMobile()'>
+				Continue
+			</div>
+		</div>
+		<div *ngIf='isPassrd'>
+			<div class="loginmobilefieldreg">
+				<label>Password</label>
+				<input type="password" [(ngModel)]="logedpass">
+			</div>
+			<div class="forgotpass" (click)='forgotpassword()'>
+				Forgot Password ? Click here to reset.
+			</div>
+			<div class="continuebtn" (click)='loginnow()'>
+				Login
+			</div>
+		</div>
+
+		
+	</div>
+
+	<div *ngIf='isnewUser'>
+
+		<div *ngIf='isshowfldsnup'>
+			<div class="loginmobilefieldreg">
+				<label>Your full name</label>
+				<input type="text" [(ngModel)]="regt.fullname">
+			</div>
+			<div class="loginmobilefieldreg">
+				<label>Recovery email</label>
+				<input type="email" [(ngModel)]="regt.email">
+			</div>
+			<div class="loginmobilefieldreg">
+				<label>Password</label>
+				<input type="password" [(ngModel)]="regt.password">
+			</div>
+			<div class="onlytxt">
+				<input type="checkbox" checked="true" disabled="true"> By clicking sign up, you agree to our <span (click)="gotncpg('Terms and Conditions')">Terms & Conditions</span> and our <span (click)="gotncpg('Privacy Policy')">Privacy Policy</span>. You also acknowledge to read our allergy advice and information before placing an order.
+			</div>
+			<div class="continuebtn" (click)='signupnow()'>
+				Signup
+			</div>
+		</div>
+		<div *ngIf='isTncdesc' style="position: relative;">
+			<div style="position: absolute; right: 10px; top: -19px;font-size: 25px;font-weight: bold;" (click)='closetncpvc()'>x</div>
+			<div class="cmsdesc" [innerHTML]='allProducts?.description'></div>
+			<div class="continuebtn" (click)='closetncpvc()'>
+				Close
+			</div>
+		</div>
+		
+	</div>
+	
+</ion-content>
